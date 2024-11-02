@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import { throttledGetDataFromApi } from './index';
 
 jest.mock('lodash', () => {
@@ -12,6 +12,9 @@ jest.mock('lodash', () => {
 
 jest.mock('axios');
 
+// let axiosInstance: AxiosInstance;
+// let createSpy: jest.SpyInstance;
+
 describe('throttledGetDataFromApi', () => {
   let getMock: jest.Mock;
   let createMock: jest.Mock;
@@ -22,11 +25,21 @@ describe('throttledGetDataFromApi', () => {
     axios.create = createMock;
   });
 
+  // beforeEach(() => {
+  //   axiosInstance = {
+  //     get: jest.fn().mockResolvedValue({ data: 'test' }),
+  //   } as unknown as AxiosInstance;
+  //   createSpy = jest.spyOn(axios, 'create').mockReturnValue(axiosInstance);
+  // });
+
   afterAll(() => {
     jest.clearAllMocks();
   });
 
   test('should create instance with provided base url', async () => {
+    const axiosGet = jest.spyOn(Axios.prototype, 'get');
+    axiosGet.mockImplementation(async () => ({ data: { id: 1 } }));
+
     await throttledGetDataFromApi('');
     expect(axios.create).toHaveBeenCalledWith({
       baseURL: 'https://jsonplaceholder.typicode.com',

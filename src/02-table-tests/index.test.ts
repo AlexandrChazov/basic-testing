@@ -23,3 +23,12 @@ describe.each(testCases)('simpleCalculator', ({ a, b, action, expected }) => {
     expect(simpleCalculator({ a, b, action })).toBe(expected);
   });
 });
+
+describe('calculator', () => {
+  test.each(testCases)(
+    'should return $expected when $action is applied to $a and $b',
+    ({ a, b, action, expected }) => {
+      expect(simpleCalculator({ a, b, action })).toBe(expected);
+    },
+  );
+});

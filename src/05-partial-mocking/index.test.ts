@@ -6,9 +6,9 @@ jest.mock('./index', () => {
   return {
     __esModule: true,
     ...originalModule,
-    mockOne: jest.fn(() => 'mockOne'),
-    mockTwo: jest.fn(() => 'mockTwo'),
-    mockThree: jest.fn(() => 'mockThree'),
+    mockOne: jest.fn(),
+    mockTwo: jest.fn(),
+    mockThree: jest.fn(),
   };
 });
 
@@ -22,7 +22,7 @@ describe('partial mocking', () => {
     mockOne();
     mockTwo();
     mockThree();
-    expect(spy).toHaveBeenCalledTimes(0);
+    expect(spy).not.toHaveBeenCalled();
   });
 
   test('unmockedFunction should log into console', () => {
